@@ -1,5 +1,3 @@
-Este arquivo é uma cópia de exercicios.md
-
 # Lista de Exercícios Práticos — Redis CLI
 
 > Execute os comandos no `redis-cli` e adicione os prints dos resultados abaixo de cada exercício.
@@ -430,7 +428,7 @@ LTRIM tarefas 0 1
 LRANGE tarefas 0 -1
 ```
 
-## Prints
+## k
 
 ![exercicio 22](image-22.png)
 
@@ -454,3 +452,83 @@ EXISTS lista_temporaria
 ## Prints
 
 ![exercicio 23](image-23.png)
+
+# Desafio 
+
+## Com base nos comandos do Redis apresentados e utilizados nesta lista de exercícios, crie um script exemplificando um mini fluxo de um problema que você identifique no seu cotidiano, podendo ser no seu trabalho, nos seus estudos ou na sociedade.
+
+```bash
+# MINI FLUXO REDIS - CONTROLE DE ENCOMENDAS
+# Queijaria / Laticínios (@queijosdelatte)
+
+# Problema identificado:
+# Organização manual dos pedidos e entregas,
+# dificultando o controle de clientes,
+# produtos e status das encomendas.
+
+# 1. Cadastro de clientes
+
+HSET cliente:1 nome "Maria Silva" telefone "14999999999" cidade "Marilia"
+
+HSET cliente:2 nome "Joao Souza" telefone "14988888888" cidade "Pompeia"
+
+# Visualizar cliente
+HGETALL cliente:1
+
+# 2. Cadastro de produtos
+
+HSET produto:1 nome "Requeijao de Corte 500g" preco "45.00" estoque "20"
+
+HSET produto:2 nome "Doce de Leite 500g" preco "28.00" estoque "15"
+
+# Consultar produto
+HGETALL produto:1
+
+# 3. Registro de pedidos
+
+HSET pedido:1001 cliente "Maria Silva" produto "Requeijao de Corte" quantidade "2" status "Em preparo"
+
+HSET pedido:1002 cliente "Joao Souza" produto "Doce de Leite" quantidade "1" status "Aguardando pagamento"
+
+# Consultar pedido
+HGETALL pedido:1001
+
+# 4. Lista de pedidos para entrega
+
+LPUSH entregas "Pedido 1001 - Maria Silva"
+
+LPUSH entregas "Pedido 1002 - Joao Souza"
+
+# Visualizar fila de entregas
+LRANGE entregas 0 -1
+
+# 5. Atualização do status do pedido
+
+HSET pedido:1001 status "Saiu para entrega"
+
+# Verificar atualização
+HGET pedido:1001 status
+
+# 6. Controle de estoque
+
+# Venda de 2 unidades do requeijão
+HINCRBY produto:1 estoque -2
+
+# Consultar estoque atualizado
+HGET produto:1 estoque
+
+# 7. Histórico de pedidos concluídos
+
+SADD pedidos_concluidos 1001
+
+# Visualizar pedidos concluídos
+SMEMBERS pedidos_concluidos
+
+# 8. Relatório rápido
+
+# Quantidade de pedidos na fila
+LLEN entregas
+
+# Quantidade de pedidos concluídos
+SCARD pedidos_concluidos
+```
