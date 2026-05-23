@@ -428,7 +428,7 @@ LTRIM tarefas 0 1
 LRANGE tarefas 0 -1
 ```
 
-## k
+## Prints
 
 ![exercicio 22](image-22.png)
 
